@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Jawad Al Hajj · Biosignal Analysis</title>
+  <meta name="description" content="Biomedical engineer turning raw ECG and physiological recordings into clean, validated analysis, figures and dashboards in Python.">
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <style>
+    :root { --ink:#0b0b0b; --ink-2:#52514e; --line:#e4e3df; --bg:#fcfcfb; --card:#ffffff; --accent:#2a78d6; --accent-ink:#1c5cab; }
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) { --ink:#f0efec; --ink-2:#c3c2b7; --line:#34332f; --bg:#1a1a19; --card:#232321; --accent:#3987e5; --accent-ink:#86b6ef; }
+    }
+    :root[data-theme="dark"] { --ink:#f0efec; --ink-2:#c3c2b7; --line:#34332f; --bg:#1a1a19; --card:#232321; --accent:#3987e5; --accent-ink:#86b6ef; }
+    body { background:var(--bg); color:var(--ink); font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; }
+    .muted { color:var(--ink-2); }
+    .card { background:var(--card); border:1px solid var(--line); border-radius:14px; }
+    .rule { border-color:var(--line); }
+    .accent { color:var(--accent-ink); }
+    .btn { background:var(--accent); color:#fff; border-radius:10px; padding:.7rem 1.1rem; font-weight:600; display:inline-block; }
+    .btn-ghost { border:1px solid var(--line); border-radius:10px; padding:.7rem 1.1rem; font-weight:600; display:inline-block; }
+    .tag { font-size:.72rem; letter-spacing:.04em; text-transform:uppercase; border:1px solid var(--line); border-radius:999px; padding:.2rem .6rem; color:var(--ink-2); }
+    .fig { background:#fff; border-radius:10px; border:1px solid var(--line); }
+    a:focus-visible, .btn:focus-visible { outline:2px solid var(--accent); outline-offset:2px; }
+  </style>
+</head>
+<body class="antialiased">
+  <main class="mx-auto max-w-4xl px-4 sm:px-6">
+
+    <header class="py-14 sm:py-20">
+      <p class="tag inline-block mb-5">Biomedical engineer · Lebanon · remote</p>
+      <h1 class="text-3xl sm:text-5xl font-bold leading-tight tracking-tight">
+        Raw ECG and physiological recordings in.<br class="hidden sm:block">
+        <span class="accent">Clean, validated numbers out.</span>
+      </h1>
+      <p class="muted mt-5 text-lg max-w-2xl">
+        I'm Jawad, a biomedical engineer who builds Python pipelines for biosignal data:
+        R-peak detection, HRV, signal-quality control, group statistics and publication-ready figures.
+        Reproducible code, every time.
+      </p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a class="btn" href="#contact">Get a fixed quote in 24 h</a>
+        <a class="btn-ghost" href="#work">See sample projects</a>
+      </div>
+    </header>
+
+    <section id="work" class="py-10 border-t rule">
+      <h2 class="text-2xl font-bold">Sample projects</h2>
+      <p class="muted mt-2 text-sm">
+        Built on free, public PhysioNet datasets to show how I work. These are <strong>sample projects, not client work.</strong>
+      </p>
+
+      <article class="card p-5 sm:p-7 mt-6">
+        <div class="flex flex-wrap gap-2 mb-3"><span class="tag">Sample project</span><span class="tag">NeuroKit2</span><span class="tag">HRV</span></div>
+        <h3 class="text-xl font-semibold">Batch ECG → HRV pipeline: 40 subjects, young vs elderly</h3>
+        <p class="muted mt-2">
+          One script turns 40 raw ECG recordings (PhysioNet Fantasia, 250 Hz) into cleaned R-peaks, per-subject RR-interval files,
+          a signal-quality score, and time- and frequency-domain HRV, followed by a corrected group comparison.
+        </p>
+        <ul class="mt-4 grid sm:grid-cols-3 gap-3 text-sm">
+          <li class="card p-3"><div class="text-2xl font-bold">40 / 40</div><div class="muted">recordings passed quality control</div></li>
+          <li class="card p-3"><div class="text-2xl font-bold">55 → 25 ms</div><div class="muted">median RMSSD, young → elderly</div></li>
+          <li class="card p-3"><div class="text-2xl font-bold">p = 0.005</div><div class="muted">Holm-corrected, Mann-Whitney U</div></li>
+        </ul>
+        <img class="fig mt-5 w-full" src="img/hrv_group_comparison.png" alt="Dot plots of RMSSD, SDNN and HF power for 20 young and 20 elderly subjects; all three are markedly lower in the elderly group.">
+        <img class="fig mt-3 w-full" src="img/hrv_ecg_rpeaks.png" alt="Six seconds of cleaned ECG with detected R-peaks marked.">
+        <p class="muted text-sm mt-3">Deliverables: RR-interval CSVs · HRV table · QC flags · figures · methods paragraph · one-command rerun.</p>
+      </article>
+
+      <article class="card p-5 sm:p-7 mt-6">
+        <div class="flex flex-wrap gap-2 mb-3"><span class="tag">Sample project</span><span class="tag">Validation</span><span class="tag">MIT-BIH</span></div>
+        <h3 class="text-xl font-semibold">Does the R-peak detector actually work? Benchmarked against cardiologists</h3>
+        <p class="muted mt-2">
+          Before trusting any HRV number, I check the beat detection. Three open-source detectors were scored against
+          expert-annotated beats in all 48 MIT-BIH Arrhythmia recordings (±150 ms window, the AAMI EC57 convention).
+        </p>
+        <ul class="mt-4 grid sm:grid-cols-3 gap-3 text-sm">
+          <li class="card p-3"><div class="text-2xl font-bold">{{REF_BEATS}}</div><div class="muted">reference beats checked</div></li>
+          <li class="card p-3"><div class="text-2xl font-bold">{{BEST_F1}}</div><div class="muted">best overall F1 ({{BEST_NAME}})</div></li>
+          <li class="card p-3"><div class="text-2xl font-bold">{{HARD_REC}}</div><div class="muted">hardest records, flagged and explained</div></li>
+        </ul>
+        <img class="fig mt-5 w-full" src="img/rpeak_f1_per_record.png" alt="Per-record F1 scores of three R-peak detectors across 48 MIT-BIH records; most records are near 1.0, with a few hard records lower.">
+        <p class="muted text-sm mt-3">Why it matters: one missed beat creates a fake 2-second RR interval and inflates SDNN. Validation catches it.</p>
+      </article>
+    </section>
+
+    <section id="services" class="py-10 border-t rule">
+      <h2 class="text-2xl font-bold">Fixed-price services</h2>
+      <p class="muted mt-2 text-sm">Clear scope, clear price, no hourly surprises.</p>
+      <div class="grid md:grid-cols-2 gap-5 mt-6">
+        <div class="card p-6">
+          <p class="tag inline-block">Starter</p>
+          <h3 class="text-lg font-semibold mt-3">ECG → HRV Quick Pipeline</h3>
+          <p class="mt-1"><span class="text-3xl font-bold">$150</span> <span class="muted">· 3 days</span></p>
+          <ul class="muted text-sm mt-4 space-y-1.5 list-disc pl-5">
+            <li>Up to 20 ECG recordings (EDF, WFDB, CSV)</li>
+            <li>R-peaks + artifact correction + quality score</li>
+            <li>RR-interval CSVs and HRV table (time + frequency)</li>
+            <li>3 figures (PNG + SVG), script, methods paragraph</li>
+            <li>1 revision round</li>
+          </ul>
+        </div>
+        <div class="card p-6">
+          <p class="tag inline-block">Core</p>
+          <h3 class="text-lg font-semibold mt-3">Biosignal Study Analysis Package</h3>
+          <p class="mt-1"><span class="text-3xl font-bold">$650</span> <span class="muted">· 7–10 days</span></p>
+          <ul class="muted text-sm mt-4 space-y-1.5 list-disc pl-5">
+            <li>Up to 200 recordings (ECG, PPG, respiration)</li>
+            <li>Quality-control report: what was excluded and why</li>
+            <li>Group statistics with corrections and effect sizes</li>
+            <li>4–6 publication-ready figures + methods/results draft</li>
+            <li>Reproducible repo, 30-min results call, 2 revisions</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="py-10 border-t rule">
+      <h2 class="text-2xl font-bold">How I work</h2>
+      <ol class="grid sm:grid-cols-3 gap-5 mt-6">
+        <li><p class="accent font-semibold">1 · Send a sample</p><p class="muted text-sm mt-1">1–2 files and your question. I reply within 24 h with a fixed quote.</p></li>
+        <li><p class="accent font-semibold">2 · Validate first</p><p class="muted text-sm mt-1">Quality checks and beat detection are verified before any statistic is reported.</p></li>
+        <li><p class="accent font-semibold">3 · Reproducible handover</p><p class="muted text-sm mt-1">Code, outputs and a methods paragraph you can rerun or hand to a reviewer.</p></li>
+      </ol>
+    </section>
+
+    <section id="contact" class="py-12 border-t rule">
+      <h2 class="text-2xl font-bold">Have recordings that need analysing?</h2>
+      <p class="muted mt-2">Tell me what you measured and what you want to know.</p>
+      <div class="mt-6 flex flex-wrap gap-3">
+        <!-- TODO(Jawad): replace with your real contact details before publishing -->
+        <a class="btn" href="mailto:YOUR_EMAIL@example.com">Email me</a>
+        <a class="btn-ghost" href="https://github.com/Jawad123453">GitHub</a>
+        <a class="btn-ghost" href="https://www.linkedin.com/in/YOUR_LINKEDIN">LinkedIn</a>
+      </div>
+    </section>
+
+    <footer class="py-8 border-t rule text-xs muted">
+      Sample projects use public data from PhysioNet (Goldberger et al., 2000): Fantasia (Iyengar et al., 1996) and MIT-BIH Arrhythmia (Moody &amp; Mark, 2001).
+      No patient or client data is shown on this site.
+    </footer>
+  </main>
+</body>
+</html>
