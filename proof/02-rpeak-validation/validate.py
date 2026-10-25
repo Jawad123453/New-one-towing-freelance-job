@@ -106,22 +106,24 @@ def main():
     totals.round(4).to_csv(OUT / "summary.csv")
     print("\n", totals.round(4).to_string())
 
-    # Figure: per-record F1 for each detector, records sorted by NeuroKit2 F1
+    # Figure: only the records where some detector drops below F1 0.99; the rest are summarised
     df["F1"] = 2 * df.Se * df.PPV / (df.Se + df.PPV).replace(0, np.nan)
-    order = (df[df.method == "neurokit"].sort_values("F1").record.tolist())
-    fig, ax = plt.subplots(figsize=(10, 3.6))
-    x = np.arange(len(order))
-    for method in METHODS:
-        f1 = df[df.method == method].set_index("record").loc[order, "F1"]
-        ax.scatter(x, f1, s=30, color=METHOD_COLOR[method], edgecolor="white",
+    min_f1 = df.groupby("record").F1.min()
+    hard = min_f1[min_f1 < 0.99].sort_values().index.tolist()
+    fig, ax = plt.subplots(figsize=(9, 3.8))
+    x = np.arange(len(hard))
+    for k, method in enumerate(METHODS):
+        f1 = df[df.method == method].set_index("record").loc[hard, "F1"]
+        ax.scatter(x + (k - 1) * 0.22, f1, s=40, color=METHOD_COLOR[method], edgecolor="white",
                    linewidth=1.2, zorder=3,
                    label=f"{METHOD_LABEL[method]} (overall F1 {totals.loc[method, 'F1']:.3f})")
-    ax.set_xticks(x, order, rotation=90, fontsize=7.5)
-    ax.set(xlabel="MIT-BIH record (sorted by NeuroKit2 F1)", ylabel="F1 score",
-           title="R-peak detection vs cardiologist annotations, 48 records")
-    ax.set_ylim(min(0.8, df.F1.min() - 0.02), 1.005)
+    ax.set_xticks(x, hard)
+    ax.set(xlabel="MIT-BIH record", ylabel="F1 score",
+           title=f"Where detectors disagree: {len(hard)} of {len(min_f1)} records "
+                 f"(all detectors score F1 ≥ 0.99 on the other {len(min_f1) - len(hard)})")
+    ax.set_ylim(min(0.8, df.F1.min() - 0.03), 1.01)
     ax.legend(frameon=False, loc="lower right")
-    fig.savefig(OUT / "f1_per_record.png")
+    fig.savefig(OUT / "f1_hard_records.png")
     plt.close(fig)
 
     worst = df.sort_values("F1").head(6)

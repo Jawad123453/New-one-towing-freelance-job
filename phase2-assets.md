@@ -72,6 +72,8 @@
 **Payment terms (both offers):** 50% upfront, 50% on delivery for direct clients, via the methods you confirm work in Lebanon. On Upwork, use milestones.
 
 ## 5. Proof pieces (built in this repo, labelled as sample projects)
-- `proof/01-ecg-hrv-pipeline/`: 40 Fantasia subjects, batch ECG → RR → HRV, young vs elderly comparison
-- `proof/02-rpeak-validation/`: 3 R-peak detectors vs cardiologist annotations on 48 MIT-BIH records
-- `portfolio/index.html`: one-page site presenting both
+- `proof/01-ecg-hrv-pipeline/`: 40 Fantasia subjects, batch ECG → RR → HRV. All 40 passed QC. RMSSD fell from a median of 55 ms (young) to 25 ms (elderly), Holm-adjusted p = 0.005. An outlier driven by ectopic beats was caught, and a sensitivity analysis confirms the result holds without it.
+- `proof/02-rpeak-validation/`: 3 R-peak detectors vs 109,494 cardiologist-annotated beats (MIT-BIH). Pan-Tompkins scored best (F1 0.993) and NeuroKit2 came second (0.986). Each detector fails on different arrhythmia records, and every failure is explained.
+- `portfolio/index.html`: one-page site presenting both. **Before deploying:** replace `YOUR_EMAIL` and `YOUR_LINKEDIN`.
+
+**Suggested GitHub move (needs your OK, since it publishes new public repos):** put each proof piece in its own repo (`ecg-hrv-pipeline`, `rpeak-detector-benchmark`) and pin both. Clients click a focused repo; a folder inside a repo named "freelance-job" looks less credible.

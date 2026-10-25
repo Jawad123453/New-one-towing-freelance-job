@@ -75,12 +75,12 @@
           expert-annotated beats in all 48 MIT-BIH Arrhythmia recordings (±150 ms window, the AAMI EC57 convention).
         </p>
         <ul class="mt-4 grid sm:grid-cols-3 gap-3 text-sm">
-          <li class="card p-3"><div class="text-2xl font-bold">{{REF_BEATS}}</div><div class="muted">reference beats checked</div></li>
-          <li class="card p-3"><div class="text-2xl font-bold">{{BEST_F1}}</div><div class="muted">best overall F1 ({{BEST_NAME}})</div></li>
-          <li class="card p-3"><div class="text-2xl font-bold">{{HARD_REC}}</div><div class="muted">hardest records, flagged and explained</div></li>
+          <li class="card p-3"><div class="text-2xl font-bold">109,494</div><div class="muted">reference beats checked</div></li>
+          <li class="card p-3"><div class="text-2xl font-bold">0.993</div><div class="muted">best overall F1 (Pan-Tompkins)</div></li>
+          <li class="card p-3"><div class="text-2xl font-bold">12 / 48</div><div class="muted">records where detectors disagree, each explained</div></li>
         </ul>
-        <img class="fig mt-5 w-full" src="img/rpeak_f1_per_record.png" alt="Per-record F1 scores of three R-peak detectors across 48 MIT-BIH records; most records are near 1.0, with a few hard records lower.">
-        <p class="muted text-sm mt-3">Why it matters: one missed beat creates a fake 2-second RR interval and inflates SDNN. Validation catches it.</p>
+        <img class="fig mt-5 w-full" src="img/rpeak_f1_hard_records.png" alt="F1 scores of three R-peak detectors on the 12 MIT-BIH records where they disagree; each detector fails on different records, while all score at least 0.99 on the other 36.">
+        <p class="muted text-sm mt-3">Finding: no detector wins everywhere. The popular NeuroKit2 default came second overall, and each detector breaks on different arrhythmias. That's why I validate on a labelled subset of your data before running the full study.</p>
       </article>
     </section>
 
